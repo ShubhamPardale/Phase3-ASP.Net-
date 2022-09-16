@@ -1,0 +1,49 @@
+﻿@model IEnumerable<OnlineLaptopStore.LaptopView.CartView>
+@{
+    ViewBag.Title = "Cart";
+    decimal TotalAmount = 0.00M;
+}
+
+<h2>Cart</h2>
+
+<table class="table-condensed" width="100%">
+    @foreach(var item in Model)
+            {
+                TotalAmount += item.Total;
+                <tr>
+                    <td>
+                        <img src="@Url.Content(item.Image_path)" class="img-responsive" height="200px" width="200px" />
+                    </td>
+                    <td>
+                        @item.Item_name
+                    </td>
+                    <td style="text-align:right">
+                        @item.Quantity.ToString("#,##0")
+                    </td>
+                    <td style="text-align:right">
+                        @item.Unit_price.ToString("#,##0.00")
+                    </td>
+                    <td style="text-align:right">
+                        @item.Total.ToString("#,##0.00")
+                    </td>
+                    
+                </tr>
+            }
+
+    <tr style="border-top:1px solid Black" >
+        <td colspan="4" style="text-align:right">
+            <h3>Total Amount</h3>
+        </td>
+        <td style="text-align:right">
+            <h3>@TotalAmount.ToString("#,##0.00")</h3>
+        </td>
+    </tr>
+    <tr>
+        
+        <td >
+            @Html.ActionLink("Back to Store","Index","LaptopStore")
+        </td>
+    </tr>
+
+</table>
+

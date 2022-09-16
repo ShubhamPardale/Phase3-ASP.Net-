@@ -1,0 +1,62 @@
+﻿@model IEnumerable<OnlineLaptopStore.LaptopView.LaptopStoreView>
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+</head>
+<body style="background-color:lightgray">
+<script type="text/javascript">
+    function AddToCart(item) {
+        var Item_Id = $(item).attr("Item_id");
+        var Formdata = new FormData();
+        Formdata.append("Item_id", Item_Id);
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            data: Formdata,
+            url: '/LaptopStore/Index',
+            success: function (data) {
+                if (data.Success) {
+                    $("#cartitem").text("Cart(" + data.Counter + ")");
+                }
+            },
+            error: function () {
+                alert("An error occured")
+            },
+        });
+    }
+
+</script>
+
+<div class="container">
+    <h2 class="text-center">Laptop List</h2>
+    @foreach (var item in Model)
+    {
+
+        <div class="row">
+            <div class="card" style="border: 1px solid black; background-color: white; box-shadow: 10px 10px 5px -1px rgb(0 0 0 / 30%); ">
+                <img class="img-responsive" src="@Url.Content(@item.Image_path)" height="200 px" width="200 px" style="margin-top: 10px; margin-left: 5px;" />
+
+                <div class="card-body">
+                    <h5 class="card-title" style=" margin-left:10px"><b>@item.Item_name  </b></h5>
+                    <p class="card-text" style=" margin-left:10px"><b>Description: </b>  @item.Description</p>
+                    <p class="card-text" style=" margin-left:10px"> <b>Price: </b> <span style="color:green;">@item.Item_price.ToString("#,##0.00 INR")</span> </p>
+
+                    <input type="button" name="AddToCart" value="Add to Cart" class="btn btn-primary" Item_id="@item.Item_id" id="btnAddToCart" onclick="AddToCart(this)" style=" margin-left: 10px; margin-bottom: 10px;" />
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+    }
+
+</div>
+
+</body>
